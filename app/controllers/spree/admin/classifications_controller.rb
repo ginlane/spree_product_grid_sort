@@ -1,7 +1,7 @@
 module Spree
   module Admin
     class ClassificationsController < BaseController
-      include Spree::Admin::ClassificationHelper
+      include Spree::Admin::ClassificationsHelper
 
       def index
         @taxons = Taxon.all
