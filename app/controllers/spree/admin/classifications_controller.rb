@@ -1,7 +1,10 @@
 module Spree
   module Admin
     class ClassificationsController < BaseController
+      include Spree::Admin::ClassificationHelper
+
       def index
+        @taxons = Taxon.all
         if params[:taxonomy_id]
           taxonomy         = Spree::Taxonomy.find params[:taxonomy_id]
           @classifications = taxonomy.root.classifications
