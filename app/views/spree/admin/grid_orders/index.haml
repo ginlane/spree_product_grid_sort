@@ -3,7 +3,7 @@
 
 = content_for :page_actions do
   %li
-    = taxon_dropdown_menu @taxons
+    = taxon_dropdown_menu @taxons, @taxon
   - if @taxons
     %li
       = button_link_to Spree.t(:save_order), reorder_admin_grid_orders_path, { icon: 'icon-plus', id: 'admin_save_grid_order' }
@@ -15,7 +15,7 @@
   - row     = 0
   .classification-grid
     %ul
-      - @products.each_with_index do |c, i|
+      - @products.each_with_index do |p, i|
         - row+=1 if i % cols == 0
         %li.classification-block{ data: { id: p.id, col: 1+(i % cols), row: row, sizex: 1, sizey: 1 } }
           .center

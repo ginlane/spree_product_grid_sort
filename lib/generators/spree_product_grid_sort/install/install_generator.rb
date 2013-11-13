@@ -3,6 +3,7 @@ module SpreeProductGridSort
     class InstallGenerator < Rails::Generators::Base
 
       class_option :auto_run_migrations, :type => :boolean, :default => false
+      class_option :skip_migrations, :type => :boolean, :default => true
 
       def add_javascripts
         append_file 'app/assets/javascripts/store/all.js', "//= require store/spree_product_grid_sort\n"
