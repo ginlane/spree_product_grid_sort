@@ -17,8 +17,9 @@ module Spree
         GridOrder.reorder params[:taxon_id], reorder_params
         render json: true
       end
+
       protected
-      # TODO: fixme and figure out if this is the best aproach
+      # TODO: fixme and figure out if this is the best aproach (it's not)
       def current_currency
         'USD'
       end
