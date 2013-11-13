@@ -1,0 +1,26 @@
+/*
+ *= require admin/spree_backend
+ */
+
+.classification-grid {
+    ul {
+	list-style: none;
+    }
+}
+
+.classification-block {
+    position: absolute;
+    cursor: -webkit-grab;
+    cursor: -moz-grab;
+    margin: 0;
+    background: #cee1f4;
+    text-align: center;
+    h4 {
+	font-size: 14px;
+	line-height: 1.1;
+    }
+    .center {
+	width: 100px;
+	margin: auto;
+    }
+}

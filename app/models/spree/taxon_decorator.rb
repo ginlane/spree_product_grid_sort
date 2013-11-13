@@ -1,10 +1,8 @@
 module Spree
   Taxon.class_eval do
-    has_many :classifications, ->{
-      order("#{Classification.table_name}.position ASC")
-    }, dependent: :destroy
-    has_many :products, ->{
-      order("#{Classification.table_name}.position ASC")
-    }, through: :classifications
+    has_many :grid_orders
+    has_many :ordered_products,->{
+      order("#{Spree::GridOrder.table_name}.position ASC")
+    }, through: :grid_orders, class_name: "Spree::Product"
   end
 end

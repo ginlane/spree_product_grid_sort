@@ -1,0 +1,24 @@
+= content_for :page_title do
+  = Spree.t :sort_products
+
+= content_for :page_actions do
+  %li
+    = taxon_dropdown_menu @taxons
+  - if @taxons
+    %li
+      = button_link_to Spree.t(:save_order), reorder_admin_grid_orders_path, { icon: 'icon-plus', id: 'admin_save_grid_order' }
+
+= render partial: "spree/admin/shared/product_sub_menu"
+
+- if @products
+  - cols    = 5 # TODO: CONFIGME
+  - row     = 0
+  .classification-grid
+    %ul
+      - @products.each_with_index do |c, i|
+        - row+=1 if i % cols == 0
+        %li.classification-block{ data: { id: p.id, col: 1+(i % cols), row: row, sizex: 1, sizey: 1 } }
+          .center
+            = small_image p
+          %h4
+            = p.name
