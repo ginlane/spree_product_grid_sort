@@ -11,14 +11,15 @@
 = render partial: "spree/admin/shared/product_sub_menu"
 
 - if @products
-  - cols    = 5 # TODO: CONFIGME
-  - row     = 0
+  - num_cols    = params[:num_cols] ||  6 # TODO: CONFIGME
+  - num_cols = num_cols.to_i
   .classification-grid
     %ul
       - @products.each_with_index do |p, i|
-        - row+=1 if i % cols == 0
-        %li.classification-block{ data: { id: p.id, col: 1+(i % cols), row: row, sizex: 1, sizey: 1 } }
+        %li.classification-block{ data: { id: p.id, col: i.modulo(num_cols)+1 , row:(i/num_cols).to_i+1 , sizex: 1, sizey: 1 } }
+          %h4 &nbsp;
           .center
-            = small_image p
+            = ass_tag(p.assets.first, {size: '100x200'}) unless p.assets.blank?
+          %br/
           %h4
             = p.name

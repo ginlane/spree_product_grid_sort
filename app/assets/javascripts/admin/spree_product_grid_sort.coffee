@@ -12,8 +12,8 @@
   initializeGrid: =>
     options =
       widget_margins: [10, 10]
-      widget_base_dimensions: [140, 140]
-      min_cols: 5 # TODO: CONFIGME
+      widget_base_dimensions: [140, 260]
+      min_cols: 6 # TODO: CONFIGME
       draggable: { stop:  @updateGridOrder }
       serialize_params: @extractGridOrder
 
@@ -26,7 +26,7 @@
     window.location = menu.attr("data-url") + "/?taxon_id=" + menu.val()
 
   extractGridOrder: ($w, wgd) =>
-    pos = ((wgd.row-1)*5) + wgd.col
+    pos = ((wgd.row-1)*6) + wgd.col
     [ $w.data("id"), pos ]
 
   updateGridOrder: (e) =>

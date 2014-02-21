@@ -7,8 +7,8 @@ module Spree
         @taxons = Spree::Taxon.all
         if params[:taxon_id]
           @taxon    = Spree::Taxon.find params[:taxon_id]
-          searcher  = build_searcher taxon: @taxon.id
-          @products = searcher.retrieve_products
+          # searcher  = build_searcher taxon: @taxon.id
+          @products = @taxon.ordered_products
         end
       end
 
