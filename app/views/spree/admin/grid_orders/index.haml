@@ -12,14 +12,14 @@
 
 - if @products
   - num_cols    = params[:num_cols] ||  6 # TODO: CONFIGME
-  - num_cols = num_cols.to_i
+  - num_cols    = num_cols.to_i
   .classification-grid
     %ul
       - @products.each_with_index do |p, i|
         %li.classification-block{ data: { id: p.id, col: i.modulo(num_cols)+1 , row:(i/num_cols).to_i+1 , sizex: 1, sizey: 1 } }
-          %h4 &nbsp;
+          %h4= raw('&nbsp;')
           .center
-            = ass_tag(p.assets.first, {size: '100x200'}) unless p.assets.blank?
+            = ass_tag(p.all_assets.first, {size: '100x0'}) unless p.assets.blank?
           %br/
           %h4
             = p.name
