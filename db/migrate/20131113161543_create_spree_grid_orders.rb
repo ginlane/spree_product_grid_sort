@@ -4,7 +4,6 @@ class CreateSpreeGridOrders < ActiveRecord::Migration
       t.references :taxon
       t.references  :product
       t.integer    :position
-      t.timestamps
     end
   end
 end
