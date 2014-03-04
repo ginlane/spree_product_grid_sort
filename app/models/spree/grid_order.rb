@@ -1,7 +1,7 @@
 class Spree::GridOrder < ActiveRecord::Base
   belongs_to :ordered_product, class_name: "Spree::Product", foreign_key: :product_id
   belongs_to :taxon
-  acts_as_list scope: :taxon_id, add_new_at: :bottom
+  acts_as_list scope: :taxon, add_new_at: :bottom
 
   def self.reorder(taxon_id, positions)
     ids, positions = positions.transpose
