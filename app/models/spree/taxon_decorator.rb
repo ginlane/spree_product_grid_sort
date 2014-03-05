@@ -1,6 +1,6 @@
 module Spree
   Taxon.class_eval do
-    has_many  :products, through: :taxon_grid, source: :products do
+    has_many    :products, through: :taxon_grid, source: :products do
       def <<(p)
         proxy_association.owner.taxon_grid.products << p
       end
@@ -9,14 +9,18 @@ module Spree
       end
     end
 
-    has_many    :taxon_grids, -> {order(:available_on)}
-    belongs_to  :taxon_grid
-    has_many    :available_grids, -> {where(["#{Spree::TaxonGrid.table_name}.available_on < ?",Time.now])}, class_name: 'Spree::TaxonGrid'
-    has_many    :grid_products, through: :taxon_grid, source: :products, class_name: 'Spree::Product'
+    has_many    :taxon_grids, -> {order(:available_on)} do
+      def available
+        where(["#{Spree::TaxonGrid.table_name}.available_on < ?",Time.now])        
+      end
+    end
+    alias_method :taxon_grids, :grids
 
+    has_one     :taxon_grid, -> {where(["#{Spree::TaxonGrid.table_name}.available_on < ?",Time.now])}
+    alias_method :taxon_grid, :grid
+    
     after_initialize -> {
       self.taxon_grids.build(available_on:1.day.ago) if new_record?
-      self.taxon_grid_id ||= (available_grids.last || taxon_grids.last).try :id
     }
   end
 end

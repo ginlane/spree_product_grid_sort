@@ -11,7 +11,6 @@ class Spree::Classification < ActiveRecord::Base
     self.taxon_grid ||= taxon.taxon_grids.last
   }
 
-
   def self.reorder(taxon_id, positions)
     ids, positions = positions.transpose
     products       = Spree::Product.find ids
