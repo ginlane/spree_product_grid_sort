@@ -14,13 +14,13 @@ module Spree
         where(["#{Spree::TaxonGrid.table_name}.available_on < ?",Time.now])        
       end
     end
-    alias_method :taxon_grids, :grids
+    alias_method :grids, :taxon_grids
 
     has_one     :taxon_grid, -> {where(["#{Spree::TaxonGrid.table_name}.available_on < ?",Time.now])}
-    alias_method :taxon_grid, :grid
-    
+    alias_method :grid, :taxon_grid
+
     after_initialize -> {
-      self.taxon_grids.build(available_on:1.day.ago) if new_record?
+      taxon_grids.build(available_on:1.day.ago) if new_record?
     }
   end
 end
