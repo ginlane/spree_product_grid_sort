@@ -19,8 +19,8 @@ describe Spree::Taxon do
     t.taxon_grids.create available_on: 1.day.from_now
 
     p = FactoryGirl.create :product
-    t.products << p
-    expect(t.grid_products).to have(0).records
+    t.taxon_grids.last.products << p
+    expect(t.products).to have(0).records
   end     
   it "should reflect current grid order in taxon.products" do
     t = FactoryGirl.create :taxon
@@ -31,7 +31,7 @@ describe Spree::Taxon do
     t.products << p2
 
     # matching order
-    expect(t.products).to eq t.grid_products
+    expect(t.products).to eq t.grid.products
 
     # one moar
     p3 = FactoryGirl.create :product
@@ -40,11 +40,14 @@ describe Spree::Taxon do
     # create a new future grid
     tg = t.taxon_grids.create available_on: 1.day.from_now
     # reorder future grid
-    tg.classifications.find_by(product:t.products.last).move_to_top
+
+    tg.classifications.last.move_to_top
+    
+    ap tg.reload.classifications
     # reflects order?
-    expect(tg.reload.products).to eq [p3,p1,p2]
+    expect(tg.reload.products.to_a).to eq [p3,p1,p2]
     # old/current grid shouldnt change!
-    expect(t.products).to eq [p1,p2,p3]
+    expect(t.reload.products.to_a).to eq [p1,p2,p3]
   end  
 
 end

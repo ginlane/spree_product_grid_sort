@@ -8,8 +8,8 @@ describe Spree::Classification do
     t.products << p1
     t.products << p2
 
-    expect(t.reload.grid_products).to eq [p1, p2]
+    expect(t.reload.products).to eq [p1, p2]
     t.taxon_grid.classifications.find_by(product:p1).move_to_bottom
-    expect(t.reload.grid_products).to eq [p2, p1]
+    expect(t.reload.products).to eq [p2, p1]
   end
 end

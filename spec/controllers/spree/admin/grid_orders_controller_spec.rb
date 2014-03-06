@@ -27,14 +27,10 @@ describe Spree::Admin::GridOrdersController do
     pos_3_cat_1.taxon_ids = [ tax_beanies.id ]
     pos_4_cat_1.taxon_ids = [ tax_caps.id    ]
 
-    grid_order_1 = FactoryGirl.create :grid_order, ordered_product: pos_2_cat_1, taxon: tax_beanies
-    grid_order_2 = FactoryGirl.create :grid_order, ordered_product: pos_3_cat_1, taxon: tax_beanies
-
-
     spree_get :index, taxon_id: tax_beanies.id
     assigns(:products).map(&:id).should eql [ pos_2_cat_1, pos_3_cat_1 ].map(&:id)
 
-    assigns(:products).first.grid_order(tax_beanies).move_lower
+    assigns(:products).first.classifications.find_by(taxon:tax_beanies).move_lower
 
     spree_get :index, taxon_id: tax_beanies.id
     assigns(:products).map(&:id).should eql [ pos_3_cat_1, pos_2_cat_1 ].map(&:id)
@@ -57,6 +53,6 @@ describe Spree::Admin::GridOrdersController do
 
     spree_put :reorder, reorder: class_orders.to_json, taxon_id: tax_hats.id
 
-    tax_hats.ordered_products.reload.map(&:id).should eql [ pos_2, pos_1, pos_3, pos_4 ].map(&:id)
+    tax_hats.products.reload.map(&:id).should eql [ pos_2, pos_1, pos_3, pos_4 ].map(&:id)
   end
 end
