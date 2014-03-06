@@ -3,13 +3,22 @@ class Spree::Classification < ActiveRecord::Base
   belongs_to :product, class_name: "Spree::Product"
   belongs_to :taxon, class_name: "Spree::Taxon"
 
-  acts_as_list scope: :taxon_grid 
   belongs_to :taxon_grid
+  
+  acts_as_list scope: :taxon_grid
 
   after_initialize -> {
-    return unless new_record?
-    self.taxon_grid ||= taxon.taxon_grids.last
+    ensure_taxon_grid if new_record? && taxon_id.present?
   }
+
+  def taxon=(t)
+    super t
+    ensure_taxon_grid
+  end
+
+  def ensure_taxon_grid
+    self.taxon_grid ||= taxon.taxon_grids.last rescue binding.pry    
+  end
 
   def self.reorder(taxon_id, positions)
     ids, positions = positions.transpose
