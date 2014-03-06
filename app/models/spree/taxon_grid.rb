@@ -2,7 +2,7 @@ class Spree::TaxonGrid < ActiveRecord::Base
   belongs_to :taxon
 
   has_many :classifications, -> {order(:position)}
-  has_many :products, -> {order("#{Spree::Classification.table_name}.position ASC")}, through: :classifications
+  has_many :products, through: :classifications
 
   after_create -> {
     # only copy if there's one existing
