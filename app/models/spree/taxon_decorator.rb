@@ -2,10 +2,12 @@ module Spree
   Taxon.class_eval do
     has_many    :products, through: :taxon_grid, source: :products do
       def <<(p)
-        proxy_association.owner.taxon_grid.products << p
+        t = proxy_association.owner
+        Classification.create taxon: t, product: p, taxon_grid: t.try(:taxon_grid)
       end
       def push(p)
-        proxy_association.owner.taxon_grid.products << p
+        t = proxy_association.owner
+        Classification.create taxon: t, product: p, taxon_grid: t.try(:taxon_grid)
       end
     end
 
