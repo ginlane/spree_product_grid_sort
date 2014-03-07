@@ -38,7 +38,7 @@
     $.ajax
       type: "PUT"
       url: e.currentTarget.getAttribute("href")
-      data: { reorder: JSON.stringify(@gridOrder), taxon_id: $("#taxon_menu").val() }
+      data: { reorder: JSON.stringify(@gridOrder), taxon_id: $("#taxon_menu").val(), grid_id: $("#grid_id").val() }
       success: =>
         # console.log(@gridOrder)
 

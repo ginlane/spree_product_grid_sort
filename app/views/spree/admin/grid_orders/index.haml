@@ -3,8 +3,17 @@
 
 = content_for :page_actions do
   %li
-    = taxon_dropdown_menu @taxons, @taxon
+    = form_tag admin_grid_orders_path, method: :get do 
+      = hidden_field_tag 'taxon_id', @taxon.id
+      = grids_dropdown_menu @taxon.grids, @grid, {onChange: 'this.form.submit()'}
+  %li
+    = form_tag admin_grid_orders_path do 
+      = hidden_field_tag 'taxon_id', @taxon.id
+      = text_field_tag 'taxon_grid[available_on]',  datepicker_field_value(1.day.from_now), class: 'datepicker', onChange: 'this.form.submit()'
+
   - if @taxons
+    %li
+      = taxon_dropdown_menu @taxons, @taxon
     %li
       = button_link_to Spree.t(:save_order), reorder_admin_grid_orders_path, { icon: 'icon-plus', id: 'admin_save_grid_order' }
 
