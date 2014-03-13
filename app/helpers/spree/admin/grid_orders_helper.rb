@@ -5,6 +5,6 @@ module Spree::Admin::GridOrdersHelper
   end
   def grids_dropdown_menu(grids, grid, opt={})
     options = options_from_collection_for_select grids, :id, :available_on, grid.try(:id)
-    select_tag :grid_id, options, opt #, "data-url" => admin_grid_orders_url
+    select_tag :grid_id, options, opt 
   end
 end
