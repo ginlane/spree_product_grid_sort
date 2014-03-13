@@ -1,15 +1,6 @@
 module Spree
   Taxon.class_eval do
-    has_many    :products, through: :taxon_grid, source: :products do
-      def <<(p)
-        t = proxy_association.owner
-        Classification.create taxon: t, product: p, taxon_grid: t.try(:taxon_grid)
-      end
-      def push(p)
-        t = proxy_association.owner
-        Classification.create taxon: t, product: p, taxon_grid: t.try(:taxon_grid)
-      end
-    end
+    delegate :products, to: :taxon_grid
 
     has_many    :taxon_grids, -> {order(:available_on)} do
       def available
