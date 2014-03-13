@@ -30,7 +30,6 @@ module Spree
       def create
         @taxon    = Spree::Taxon.find params[:taxon_id]
         @taxon.grids.create grid_params
-        binding.pry
       end
 
       def show
