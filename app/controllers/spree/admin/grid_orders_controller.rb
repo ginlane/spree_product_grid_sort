@@ -3,6 +3,7 @@ module Spree
     class GridOrdersController < BaseController
       include Spree::Admin::GridOrdersHelper
       helper 'spree/products'
+      
       def index
         @taxons = Spree::Taxon.order(:parent_id)
         
@@ -30,10 +31,6 @@ module Spree
       def create
         @taxon    = Spree::Taxon.find params[:taxon_id]
         @taxon.grids.create grid_params
-      end
-
-      def show
-        @grid = TaxonGrid.find params[:id] rescue @taxon.grid
       end
 
       protected
