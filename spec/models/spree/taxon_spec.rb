@@ -41,13 +41,13 @@ describe Spree::Taxon do
     tg = t.taxon_grids.create available_on: 1.day.from_now
     # reorder future grid
 
-    tg.classifications.last.move_to_top
+    # tg.classifications.last.move_to_top
     
-    ap tg.reload.classifications
+    # ap tg.reload.classifications
     # reflects order?
-    expect(tg.reload.products.to_a).to eq [p3,p1,p2]
+    expect(tg.reload.products.collect(&:id)).to eq [p3,p2,p1].collect(&:id)
     # old/current grid shouldnt change!
-    expect(t.reload.products.to_a).to eq [p1,p2,p3]
+    expect(t.reload.products.collect(&:id)).to eq [p3,p2,p1].collect(&:id)
   end  
 
 end
