@@ -35,7 +35,7 @@ class Spree::Classification < ActiveRecord::Base
     products       = Spree::Product.find ids
     map            = Hash[ids.zip(positions)]
     products.each do |p|
-      p.classifications.find_by(taxon_grid_id:taxon_id).update(position:map[p.id])
+      p.classifications.find_by(taxon_grid_id:taxon_id).update_column(:position, map[p.id])
     end
   end  
 end
