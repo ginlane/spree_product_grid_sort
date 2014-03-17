@@ -19,7 +19,6 @@ module Spree
           @taxon.grid
         end
         @products = @grid.products
-      
       end
 
       def reorder
@@ -30,7 +29,8 @@ module Spree
 
       def create
         @taxon    = Spree::Taxon.find params[:taxon_id]
-        @taxon.grids.create grid_params
+        tg = @taxon.grids.create grid_params
+        redirect_to admin_grid_orders_path(taxon_id:@taxon.id, grid_id:tg.id)
       end
 
       protected
