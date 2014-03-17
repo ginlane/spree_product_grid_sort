@@ -9,7 +9,7 @@ module Spree
     end
     alias_method :grids, :taxon_grids
 
-    has_one     :taxon_grid, -> {where(["#{Spree::TaxonGrid.table_name}.available_on < ?",Time.now])}
+    has_one     :taxon_grid, -> {where(["#{Spree::TaxonGrid.table_name}.available_on < ?",Time.now]).order(id: :desc)}
     alias_method :grid, :taxon_grid
 
     after_initialize -> {

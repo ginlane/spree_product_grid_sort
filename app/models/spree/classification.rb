@@ -5,19 +5,28 @@ class Spree::Classification < ActiveRecord::Base
 
   belongs_to :taxon_grid
   
-  acts_as_list scope: :taxon_grid
+  acts_as_list scope: :taxon_grid_id, add_new_at: :top
 
   after_initialize -> {
     ensure_taxon_grid if new_record? && taxon_id.present?
+    ensure_taxon if new_record? && taxon_grid_id.present?
   }
 
   def taxon=(t)
     super t
     ensure_taxon_grid
   end
+  def taxon_grid=(tg)
+    super tg
+    ensure_taxon
+  end
 
   def ensure_taxon_grid
-    self.taxon_grid ||= taxon.taxon_grids.last rescue binding.pry    
+    self.taxon_grid ||= taxon.taxon_grids.last
+  end
+
+  def ensure_taxon
+    self.taxon ||= taxon_grid.taxon
   end
 
 
@@ -26,7 +35,7 @@ class Spree::Classification < ActiveRecord::Base
     products       = Spree::Product.find ids
     map            = Hash[ids.zip(positions)]
     products.each do |p|
-      p.classifications.find_by(taxon_grid_id:taxon_id).update(position:map[p.id])
+      p.classifications.find_by(taxon_grid_id:taxon_id).update_column(:position, map[p.id])
     end
   end  
 end
