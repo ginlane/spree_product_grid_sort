@@ -1,6 +1,6 @@
 Spree::Product.class_eval do
   has_many :taxon_grids, through: :classifications
-  has_many :taxons, through: :classifications, group: :taxon_id
+  has_many :taxons, -> {group("#{Spree::Taxon.table_name}.id")}, through: :classifications
 
 
   def grids(t=nil)
