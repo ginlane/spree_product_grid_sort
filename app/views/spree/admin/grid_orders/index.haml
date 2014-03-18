@@ -25,7 +25,7 @@
   .classification-grid
     %ul
       - @products.each_with_index do |p, i|
-        %li.classification-block{ data: { id: p.id, col: i.modulo(num_cols)+1 , row:(i/num_cols).to_i+1 , sizex: 1, sizey: 1 } }
+        %li.classification-block{ data: { id: p.id, col: i.modulo(num_cols)+1 , row:(i/num_cols).to_i+1 , sizex: 1, sizey: 1 }, class: p.try(:new?) ? "new" : '' }
           %h4= raw('&nbsp;')
           .center
             = ass_tag(p.assets.first, {size: '100x0'}) unless p.assets.blank?
