@@ -3,7 +3,7 @@
 
 = content_for :page_actions do
   %li
-    = button_to 'Preview', main_app.taxons_path(@taxon, grid_id: @grid.try(:id)), method: :get
+    = link_to 'Preview', main_app.taxons_path(@taxon, grid: @grid || @taxon.grid), class: 'button'
 
   - if @grid and !@grid.current?
     %li
