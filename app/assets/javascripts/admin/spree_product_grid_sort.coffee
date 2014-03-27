@@ -12,7 +12,7 @@
   initializeGrid: =>
     options =
       widget_margins: [10, 10]
-      widget_base_dimensions: [140, 260]
+      widget_base_dimensions: [140, 200]
       min_cols: 6 # TODO: CONFIGME
       draggable: { stop:  @updateGridOrder }
       serialize_params: @extractGridOrder
