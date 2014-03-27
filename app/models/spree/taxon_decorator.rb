@@ -2,7 +2,7 @@ module Spree
   Taxon.class_eval do
     delegate :products, to: :taxon_grid
 
-    has_many    :taxon_grids, -> {order(:available_on)} do
+    has_many    :taxon_grids, -> {order(:available_on)}, dependent: :destroy do
       def available
         where(["#{Spree::TaxonGrid.table_name}.available_on < ?",Time.now])        
       end

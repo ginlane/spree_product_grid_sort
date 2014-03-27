@@ -29,8 +29,27 @@ module Spree
 
       def create
         @taxon    = Spree::Taxon.find params[:taxon_id]
-        tg = @taxon.grids.create grid_params
-        redirect_to admin_grid_orders_path(taxon_id:@taxon.id, grid_id:tg.id)
+        if @taxon.grids.where(available_on: grid_params[:available_on]).present?
+          flash[:notice] = "Grid already exists for date, please delete bofore replaceing"
+          redirect_to :back
+        else
+          tg = @taxon.grids.create grid_params
+          redirect_to admin_grid_orders_path(taxon_id:@taxon.id, grid_id:tg.id)
+        end
+        
+      end
+
+      def update
+        @grid = Spree::TaxonGrid.find params[:id]
+        binding.pry
+        @grid.update(grid_params)
+        redirect_to admin_grid_orders_path(grid_id: @grid.id, taxon_id: @grid.taxon.id)
+      end
+
+      def destroy
+        @grid = Spree::TaxonGrid.find params[:id]
+        @grid.destroy unless @grid.current?
+        redirect_to admin_grid_orders_path(taxon_id:@grid.taxon_id)
       end
 
       protected

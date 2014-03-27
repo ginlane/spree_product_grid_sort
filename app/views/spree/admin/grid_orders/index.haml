@@ -2,6 +2,9 @@
   = Spree.t :sort_products
 
 = content_for :page_actions do
+  - if @grid and !@grid.current?
+    %li
+      = button_to 'Delete', admin_grid_order_path(@grid), method: :delete
   %li
     = form_tag admin_grid_orders_path, method: :get do 
       = hidden_field_tag 'taxon_id', @taxon.id
@@ -9,7 +12,7 @@
   %li
     = form_tag admin_grid_orders_path do 
       = hidden_field_tag 'taxon_id', @taxon.id
-      = text_field_tag 'taxon_grid[available_on]',  datepicker_field_value(1.day.from_now), class: 'datepicker', onChange: 'this.form.submit()'
+      = text_field_tag 'taxon_grid[available_on]',  datepicker_field_value(1.day.from_now), class: 'datepicker', onChange: 'this.form.submit()' , width: 10
 
   - if @taxons
     %li
