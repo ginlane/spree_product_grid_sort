@@ -15,5 +15,15 @@ module Spree
     after_initialize -> {
       taxon_grids.build(available_on:1.day.ago) if new_record?
     }
+
+    def short_pretty_name
+      pops = self.ancestors
+      pops.shift
+
+      ancestor_chain = pops.inject("") do |name, ancestor|
+        name += "#{ancestor.name} -> "
+      end
+      ancestor_chain + "#{name}"
+    end
   end
 end

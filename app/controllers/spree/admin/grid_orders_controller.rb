@@ -5,7 +5,7 @@ module Spree
       helper 'spree/products'
       
       def index
-        @taxons = Spree::Taxon.order(:parent_id)
+        @taxons = Spree::Taxon.where.not(parent_id:nil).order(:parent_id)
         
         @taxon = if params[:taxon_id]
           Spree::Taxon.find params[:taxon_id]
