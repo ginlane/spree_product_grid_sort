@@ -34,4 +34,4 @@
             = ass_tag(p.assets.first, {size: '100x200'},{tags:"clp"}) unless p.assets.blank?
           %br/
           %h4
-            = p.name
+            = link_to p.name, admin_product_path(p), target: 'blank'
