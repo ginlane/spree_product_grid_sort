@@ -5,7 +5,7 @@ class Spree::Classification < ActiveRecord::Base
 
   belongs_to :taxon_grid
   
-  acts_as_list scope: :taxon_grid_id, add_new_at: :top
+  acts_as_list scope: :taxon_grid_id, add_new_at: :bottom
 
   after_initialize -> {
     ensure_taxon_grid if new_record? && taxon_id.present?
