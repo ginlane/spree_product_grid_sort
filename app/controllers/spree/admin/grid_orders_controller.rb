@@ -41,7 +41,6 @@ module Spree
 
       def update
         @grid = Spree::TaxonGrid.find params[:id]
-        binding.pry
         @grid.update(grid_params)
         redirect_to admin_grid_orders_path(grid_id: @grid.id, taxon_id: @grid.taxon.id)
       end
