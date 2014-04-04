@@ -19,4 +19,8 @@ class Spree::TaxonGrid < ActiveRecord::Base
     self == taxon.grid
   end
 
+  def pretty_name
+    "#{current? ? 'CURRENT ':''}#{try :name} #{available_on}"
+  end
+
 end
