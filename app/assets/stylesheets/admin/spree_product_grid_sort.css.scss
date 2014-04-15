@@ -6,7 +6,12 @@
 }
 
 .classification-block {
-  position: absolute;
+  // position: absolute;
+  float:left;
+  width: 16.5%;
+  height: 200px;
+  border: 1px solid;
+
   cursor: -webkit-grab;
   cursor: -moz-grab;
   margin: 0;

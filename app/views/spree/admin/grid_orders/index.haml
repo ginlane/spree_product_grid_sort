@@ -3,7 +3,7 @@
 
 = content_for :page_actions do
 
-  %li 
+  %li
     = form_tag admin_grid_orders_path do |f|
       = hidden_field_tag 'taxon_id', @taxon.id
       = hidden_field_tag 'taxon_grid[available_on]', 1.month.ago, id:'tax_grid_avail'
@@ -17,13 +17,13 @@
       = button_to 'Delete', admin_grid_order_path(@grid), method: :delete
 
   %li
-    = form_tag admin_grid_orders_path, method: :get do 
+    = form_tag admin_grid_orders_path, method: :get do
       = hidden_field_tag 'taxon_id', @taxon.id
       = grids_dropdown_menu @taxon.grids, @grid, {onChange: 'if(this.value)this.form.submit()'}
   %li
-    = form_tag admin_grid_order_path(@grid), method: :put do 
-      = text_field_tag 'taxon_grid[available_on]', datepicker_field_value(@grid.available_on), class: 'datepicker', onChange: 'this.form.submit()', size: 10 
-  
+    = form_tag admin_grid_order_path(@grid), method: :put do
+      = text_field_tag 'taxon_grid[available_on]', datepicker_field_value(@grid.available_on), class: 'datepicker', onChange: 'this.form.submit()', size: 10
+
   - if @taxons
     %li
       = taxon_dropdown_menu @taxons, @taxon, width:15
@@ -38,7 +38,8 @@
   .classification-grid
     %ul
       - @products.each_with_index do |p, i|
-        %li.classification-block{ data: { id: p.id, col: i.modulo(num_cols)+1 , row:(i/num_cols).to_i+1 , sizex: 1, sizey: 1 }, class: p.try(:new?) ? "new" : '' }
+        %li.classification-block{ id: "id_" + p.id.to_s, data: { id: p.id, col: i.modulo(num_cols)+1 , row:(i/num_cols).to_i+1 , sizex: 1, sizey: 1 }, class: p.try(:new?) ? "new" : '' }
+
           %h4= raw('&nbsp;')
           .center
             = ass_tag(p.assets.first, {size: '100x200'},{tags:"clp"}) unless p.assets.blank?
