@@ -2,7 +2,7 @@ module Spree
   Taxon.class_eval do
     delegate :products, to: :taxon_grid
 
-    has_many    :taxon_grids, -> {order(:available_on)} do
+    has_many    :taxon_grids, -> {order(:available_on)}, dependent: :destroy do
       def available
         where(["#{Spree::TaxonGrid.table_name}.available_on < ?",Time.now])        
       end
@@ -15,5 +15,15 @@ module Spree
     after_initialize -> {
       taxon_grids.build(available_on:1.day.ago) if new_record?
     }
+
+    def short_pretty_name
+      pops = self.ancestors
+      pops.shift
+
+      ancestor_chain = pops.inject("") do |name, ancestor|
+        name += "#{ancestor.name} -> "
+      end
+      ancestor_chain + "#{name}"
+    end
   end
 end

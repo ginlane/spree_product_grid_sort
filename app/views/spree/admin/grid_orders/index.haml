@@ -1,19 +1,32 @@
 = content_for :page_title do
-  = Spree.t :sort_products
+  = Spree.t :grids
 
 = content_for :page_actions do
+
   %li
-    = form_tag admin_grid_orders_path, method: :get do 
+    = form_tag admin_grid_orders_path do |f|
       = hidden_field_tag 'taxon_id', @taxon.id
-      = grids_dropdown_menu @taxon.grids, @grid, {onChange: 'this.form.submit()'}
+      = hidden_field_tag 'taxon_grid[available_on]', 1.month.ago, id:'tax_grid_avail'
+      = submit_tag 'Create'
+
+  - if @grid and !@grid.current?
+    %li
+      = link_to 'Preview', main_app.taxons_path(@taxon, grid_id: @grid.id || @taxon.grid.id), class: 'button'
+
+    %li
+      = button_to 'Delete', admin_grid_order_path(@grid), method: :delete
+
   %li
-    = form_tag admin_grid_orders_path do 
+    = form_tag admin_grid_orders_path, method: :get do
       = hidden_field_tag 'taxon_id', @taxon.id
-      = text_field_tag 'taxon_grid[available_on]',  datepicker_field_value(1.day.from_now), class: 'datepicker', onChange: 'this.form.submit()'
+      = grids_dropdown_menu @taxon.grids, @grid, {onChange: 'if(this.value)this.form.submit()'}
+  %li
+    = form_tag admin_grid_order_path(@grid), method: :put do
+      = text_field_tag 'taxon_grid[available_on]', datepicker_field_value(@grid.available_on), class: 'datepicker', onChange: 'this.form.submit()', size: 10
 
   - if @taxons
     %li
-      = taxon_dropdown_menu @taxons, @taxon
+      = taxon_dropdown_menu @taxons, @taxon, width:15
     %li
       = button_link_to Spree.t(:save_order), reorder_admin_grid_orders_path, { icon: 'icon-plus', id: 'admin_save_grid_order' }
 
@@ -25,10 +38,11 @@
   .classification-grid
     %ul
       - @products.each_with_index do |p, i|
-        %li.classification-block{ data: { id: p.id, col: i.modulo(num_cols)+1 , row:(i/num_cols).to_i+1 , sizex: 1, sizey: 1 }, class: p.try(:new?) ? "new" : '' }
+        %li.classification-block{ id: "id_" + p.id.to_s, data: { id: p.id, col: i.modulo(num_cols)+1 , row:(i/num_cols).to_i+1 , sizex: 1, sizey: 1 }, class: p.try(:new?) ? "new" : '' }
+
           %h4= raw('&nbsp;')
           .center
             = ass_tag(p.assets.first, {size: '100x200'},{tags:"clp"}) unless p.assets.blank?
           %br/
           %h4
-            = p.name
+            = link_to p.name, admin_product_path(p), target: 'blank'

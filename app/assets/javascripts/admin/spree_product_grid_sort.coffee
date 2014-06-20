@@ -11,15 +11,10 @@
 
   initializeGrid: =>
     options =
-      widget_margins: [10, 10]
-      widget_base_dimensions: [140, 260]
-      min_cols: 6 # TODO: CONFIGME
-      draggable: { stop:  @updateGridOrder }
-      serialize_params: @extractGridOrder
+      stop: @updateGridOrder
 
-    @grid = $(".classification-grid ul").gridster(options).data("gridster")
+    @grid = $(".classification-grid ul").sortable(options)
     $("#admin_save_grid_order").on "click", @saveGridOrder
-
 
   navigate: (e) =>
     menu            = $("#taxon_menu")
@@ -30,7 +25,11 @@
     [ $w.data("id"), pos ]
 
   updateGridOrder: (e) =>
-    @gridOrder = @grid.serialize()
+    positionArray = @grid.sortable("toArray")
+    gridOrder = []
+    positionArray.forEach (item, i)->
+      gridOrder.push([parseInt(item.split('_')[1]), i+1])
+    @gridOrder = gridOrder
 
   saveGridOrder: (e) =>
     e.preventDefault()
