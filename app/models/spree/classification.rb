@@ -7,10 +7,8 @@ class Spree::Classification < ActiveRecord::Base
 
   acts_as_list scope: :taxon_grid_id, add_new_at: :bottom
 
-  before_save -> {
-    ensure_taxon_grid if taxon_id.present? && taxon_grid_id.empty?
-    ensure_taxon if taxon_grid_id.present? && taxon.empty?
-  }
+  after_initialize :ensure_link
+  before_save :ensure_link
 
   def taxon=(t)
     super t
@@ -21,8 +19,13 @@ class Spree::Classification < ActiveRecord::Base
     ensure_taxon
   end
 
+  def ensure_link
+    ensure_taxon_grid if taxon_id.present? && taxon_grid_id.nil?
+    ensure_taxon if taxon_grid_id.present? && taxon_id.nil?
+  end
+
   def ensure_taxon_grid
-    self.taxon_grid ||= taxon.grid.last
+    self.taxon_grid ||= taxon.grid
   end
 
   def ensure_taxon
