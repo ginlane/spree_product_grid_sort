@@ -43,7 +43,7 @@
 
           %h4= raw('&nbsp;')
           .center
-            = ass_tag(p.assets.first, {size: '100x200'},{tags:"clp"}) unless p.assets.blank?
+            = mini_image(p)
           %br/
           %h4
             = link_to p.name, admin_product_path(p), target: 'blank'
