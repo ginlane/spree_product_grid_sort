@@ -28,12 +28,12 @@ describe Spree::Admin::GridOrdersController do
     pos_4_cat_1.taxon_ids = [ tax_caps.id    ]
 
     spree_get :index, taxon_id: tax_beanies.id
-    assigns(:products).map(&:id).should eql [ pos_3_cat_1, pos_2_cat_1 ].map(&:id)
+    assigns(:products).map(&:id).should eql [ pos_2_cat_1, pos_3_cat_1 ].map(&:id)
 
     assigns(:products).first.classifications.find_by(taxon:tax_beanies).move_lower
 
     spree_get :index, taxon_id: tax_beanies.id
-    assigns(:products).map(&:id).should eql [ pos_2_cat_1, pos_3_cat_1 ].map(&:id)
+    assigns(:products).map(&:id).should eql [ pos_3_cat_1, pos_2_cat_1 ].map(&:id)
   end
 
   it "should correctly reorder a listttttttt" do
