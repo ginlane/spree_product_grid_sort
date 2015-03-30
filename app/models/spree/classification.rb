@@ -33,12 +33,13 @@ class Spree::Classification < ActiveRecord::Base
   end
 
 
-  def self.reorder(taxon_id, positions)
+  def self.reorder(taxon_grid_id, positions)
     ids, positions = positions.transpose
     products       = Spree::Product.find ids
     map            = Hash[ids.zip(positions)]
     products.each do |p|
-      p.classifications.find_by(taxon_grid_id:taxon_id).update_column(:position, map[p.id])
+      p.classifications.find_by(taxon_grid_id: taxon_grid_id).update_column(:position, map[p.id])
     end
+    Spree::TaxonGrid.find(taxon_grid_id).touch
   end
 end
