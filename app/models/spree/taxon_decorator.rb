@@ -4,12 +4,12 @@ module Spree
 
     has_many    :taxon_grids, -> {order(:available_on)}, dependent: :destroy do
       def available
-        where(["#{Spree::TaxonGrid.table_name}.available_on < ?",Time.now])        
+        where(["#{Spree::TaxonGrid.table_name}.available_on < ?",Time.now])
       end
     end
     alias_method :grids, :taxon_grids
 
-    has_one     :taxon_grid, -> {where(["#{Spree::TaxonGrid.table_name}.available_on < ?",Time.now]).order(id: :desc)}
+    has_one     :taxon_grid, -> {where(["#{Spree::TaxonGrid.table_name}.available_on < ?",Time.now]).order(id: :asc)}
     alias_method :grid, :taxon_grid
 
     after_initialize -> {
