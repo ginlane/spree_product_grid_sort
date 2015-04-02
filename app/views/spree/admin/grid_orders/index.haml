@@ -6,12 +6,10 @@
   %li
     = form_tag admin_grid_orders_path do |f|
       = hidden_field_tag 'taxon_id', @taxon.id
-      = hidden_field_tag 'taxon_grid[available_on]', 1.month.ago, id:'tax_grid_avail'
+      = text_field_tag 'taxon_grid[available_on]', datepicker_field_value(@grid.available_on), class: 'datepicker', size: 10
       = submit_tag 'Create'
 
   - if @grid and !@grid.current?
-    %li
-      = link_to 'Preview', main_app.taxons_path(@taxon, grid_id: @grid.id || @taxon.grid.id), class: 'button'
 
     %li
       = button_to 'Delete', admin_grid_order_path(@grid), method: :delete
@@ -20,9 +18,6 @@
     = form_tag admin_grid_orders_path, method: :get do
       = hidden_field_tag 'taxon_id', @taxon.id
       = grids_dropdown_menu @taxon.grids, @grid, {onChange: 'if(this.value)this.form.submit()'}
-  %li
-    = form_tag admin_grid_order_path(@grid), method: :put do
-      = text_field_tag 'taxon_grid[available_on]', datepicker_field_value(@grid.available_on), class: 'datepicker', size: 10
 
   - if @taxons
     %li
