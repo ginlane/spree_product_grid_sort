@@ -22,7 +22,7 @@
       = grids_dropdown_menu @taxon.grids, @grid, {onChange: 'if(this.value)this.form.submit()'}
   %li
     = form_tag admin_grid_order_path(@grid), method: :put do
-      = text_field_tag 'taxon_grid[available_on]', datepicker_field_value(@grid.available_on), class: 'datepicker', onChange: 'this.form.submit()', size: 10
+      = text_field_tag 'taxon_grid[available_on]', datepicker_field_value(@grid.available_on), class: 'datepicker', size: 10
 
   - if @taxons
     %li
