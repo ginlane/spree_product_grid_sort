@@ -10,9 +10,8 @@
       = submit_tag 'Create'
 
   - if @grid and !@grid.current?
-
     %li
-      = button_to 'Delete', admin_grid_order_path(@grid), method: :delete
+      = button_to 'Delete', admin_grid_order_path(@grid), method: :delete, confirm: "Are you sure?"
 
   %li
     = form_tag admin_grid_orders_path, method: :get, id: 'taxon-grid-date-updater' do
@@ -24,6 +23,8 @@
       = taxon_dropdown_menu @taxons, @taxon, width:15
     %li
       = button_link_to Spree.t(:save_order), reorder_admin_grid_orders_path, { icon: 'icon-plus', id: 'admin_save_grid_order' }
+
+
 
 = render partial: "spree/admin/shared/product_sub_menu"
 

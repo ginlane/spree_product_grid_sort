@@ -39,7 +39,11 @@
   background-color: #B00;
 }
 
-#taxon-grid-date-updater #grid_id {
-  margin-left:30px;
-  margin-right:30px;
+.page-actions.toolbar ul.inline-menu {
+  li:not(:first-child):before {
+    content: "|";
+    color:#fff;
+    font-size: x-large;
+    font-weight:bolder;
+  }
 }
