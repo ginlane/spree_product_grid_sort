@@ -40,6 +40,11 @@
 }
 
 .page-actions.toolbar ul.inline-menu {
+
+  #taxon_menu {
+    width: 170px;
+  }
+
   li:not(:first-child):before {
     content: "|";
     color:#fff;

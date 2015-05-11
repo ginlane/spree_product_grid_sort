@@ -3,10 +3,10 @@ module Spree
     class GridOrdersController < BaseController
       include Spree::Admin::GridOrdersHelper
       helper 'spree/products'
-      
+
       def index
         @taxons = Spree::Taxon.where.not(parent_id:nil).order(:parent_id)
-        
+
         @taxon = if params[:taxon_id]
           Spree::Taxon.find params[:taxon_id]
         else
@@ -36,7 +36,6 @@ module Spree
           tg = @taxon.grids.create grid_params
           redirect_to admin_grid_orders_path(taxon_id:@taxon.id, grid_id:tg.id)
         end
-        
       end
 
       def update

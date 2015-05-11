@@ -3,28 +3,33 @@
 
 = content_for :page_actions do
 
-  %li
-    = form_tag admin_grid_orders_path do |f|
-      = hidden_field_tag 'taxon_id', @taxon.id
-      = text_field_tag 'taxon_grid[available_on]', datepicker_field_value(@grid.available_on), class: 'datepicker', size: 10
-      = submit_tag 'Create'
-
-  - if @grid and !@grid.current?
+  - if @taxons
     %li
-      = button_to 'Delete', admin_grid_order_path(@grid), method: :delete, confirm: "Are you sure?"
+      = taxon_dropdown_menu @taxons, @taxon, width:15
 
   %li
     = form_tag admin_grid_orders_path, method: :get, id: 'taxon-grid-date-updater' do
       = hidden_field_tag 'taxon_id', @taxon.id
       = grids_dropdown_menu @taxon.grids, @grid, {onChange: 'if(this.value)this.form.submit()'}
 
+  %li
+    = form_tag admin_grid_orders_path do |f|
+      = hidden_field_tag 'taxon_id', @taxon.id
+      = text_field_tag 'taxon_grid[available_on]', datepicker_field_value(@grid.available_on), class: 'datepicker', size: 10
+      = submit_tag 'Create'
+
+  %li
+    = form_tag admin_grid_order_path(@grid), method: :put do
+      = text_field_tag 'taxon_grid[available_on]', datepicker_field_value(@grid.available_on), class: 'datepicker', id: 'taxon_grid_available_on_for_update', size: 10
+      = submit_tag 'Update'
+
+  - if @grid and !@grid.current?
+    %li
+      = button_to 'Delete', admin_grid_order_path(@grid), method: :delete, confirm: "Are you sure?"
+
   - if @taxons
     %li
-      = taxon_dropdown_menu @taxons, @taxon, width:15
-    %li
       = button_link_to Spree.t(:save_order), reorder_admin_grid_orders_path, { icon: 'icon-plus', id: 'admin_save_grid_order' }
-
-
 
 = render partial: "spree/admin/shared/product_sub_menu"
 
