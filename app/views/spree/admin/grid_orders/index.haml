@@ -15,7 +15,7 @@
       = button_to 'Delete', admin_grid_order_path(@grid), method: :delete
 
   %li
-    = form_tag admin_grid_orders_path, method: :get do
+    = form_tag admin_grid_orders_path, method: :get, id: 'taxon-grid-date-updater' do
       = hidden_field_tag 'taxon_id', @taxon.id
       = grids_dropdown_menu @taxon.grids, @grid, {onChange: 'if(this.value)this.form.submit()'}
 
