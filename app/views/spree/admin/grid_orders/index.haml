@@ -26,10 +26,14 @@
   - if @grid and !@grid.current?
     %li
       = button_to 'Delete', admin_grid_order_path(@grid), method: :delete, confirm: "Are you sure?"
+    %li
+      = link_to 'Preview', main_app.taxons_path(@taxon, grid_id: @grid.id || @taxon.grid.id), class: 'button', id: 'preview-button'
 
   - if @taxons
     %li
       = button_link_to Spree.t(:save_order), reorder_admin_grid_orders_path, { icon: 'icon-plus', id: 'admin_save_grid_order' }
+
+
 
 = render partial: "spree/admin/shared/product_sub_menu"
 
