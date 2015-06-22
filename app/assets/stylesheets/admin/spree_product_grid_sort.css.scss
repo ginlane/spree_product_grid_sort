@@ -36,12 +36,12 @@
   background-color: #FF9300;
 }
 
-.waitlist {
-  background-color: #0FF;
-}
-
 .oos {
   background-color: #B00;
+}
+
+.waitlist {
+  background-color: #0FF;
 }
 
 .legend-grid{
@@ -54,11 +54,11 @@
   tr:hover td.new {
     background-color: #FF9300;
   }
-  tr:hover td.waitlist {
-    background-color: #0FF;
-  }
   tr:hover td.oos {
     background-color: #B00;
+  }
+  tr:hover td.waitlist {
+    background-color: #0FF;
   }
   td {
     font-size: 10px;
