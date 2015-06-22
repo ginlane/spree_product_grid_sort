@@ -35,3 +35,22 @@
 .new {
   background-color: #FF9300;
 }
+
+.waitlist {
+  background-color: #00ffff;
+}
+
+.legend-grid{
+  margin-right: 1em;
+  max-width: 930px;
+  height: 12px;
+
+  td {
+    font-size: 10px;
+    margin: 0;
+    padding: 0;
+  }
+}
+.legend-chip {
+  width: 4%;
+}
