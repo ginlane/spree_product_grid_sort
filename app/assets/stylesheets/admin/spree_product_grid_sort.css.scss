@@ -35,3 +35,37 @@
 .new {
   background-color: #FF9300;
 }
+
+.oos {
+  background-color: #B00;
+}
+
+.waitlist {
+  background-color: #0FF;
+}
+
+.legend-grid{
+  margin-right: 1em;
+  max-width: 930px;
+  height: 12px;
+  tr:hover td {
+    background-color: transparent;
+  }
+  tr:hover td.new {
+    background-color: #FF9300;
+  }
+  tr:hover td.oos {
+    background-color: #B00;
+  }
+  tr:hover td.waitlist {
+    background-color: #0FF;
+  }
+  td {
+    font-size: 10px;
+    margin: 0;
+    padding: 0;
+  }
+}
+.legend-chip {
+  width: 4%;
+}

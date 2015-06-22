@@ -36,13 +36,21 @@
   - num_cols    = params[:num_cols] ||  6 # TODO: CONFIGME
   - num_cols    = num_cols.to_i
   .classification-grid
+    %table{class: 'legend-grid'}
+      %tr
+        %td{class: 'new legend-chip'}
+        %td New
+        %td{class: 'waitlist legend-chip'}
+        %td Waitlist
+        %td{class: 'oos legend-chip'}
+        %td Out of Stock
     %ul
       - @products.each_with_index do |p, i|
-        %li.classification-block{ id: "id_" + p.id.to_s, data: { id: p.id, col: i.modulo(num_cols)+1 , row:(i/num_cols).to_i+1 , sizex: 1, sizey: 1 }, class: p.try(:new?) ? "new" : '' }
+        %li.classification-block{ id: "id_" + p.id.to_s, data: { id: p.id, col: i.modulo(num_cols)+1 , row:(i/num_cols).to_i+1 , sizex: 1, sizey: 1 }, class: [(p.try(:new?) ? "new" : ''), ('waitlist' if p.stock_status(p) == 'Waitlist')] }
 
           %h4= raw('&nbsp;')
           .center
-            = ass_tag(p.assets.first, {size: '100x200'},{tags:"clp"}) unless p.assets.blank?
+            = image_tag(p.available_assets(:option, '')) unless p.available_assets.blank?
           %br/
           %h4
             = link_to p.name, admin_product_path(p), target: 'blank'
