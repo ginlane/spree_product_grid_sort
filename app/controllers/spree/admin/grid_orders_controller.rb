@@ -3,6 +3,7 @@ module Spree
     class GridOrdersController < BaseController
       include Spree::Admin::GridOrdersHelper
       helper 'spree/products'
+      require 'securerandom'
 
       def index
         @taxons = Spree::Taxon.where.not(parent_id:nil).order(:parent_id)
@@ -25,6 +26,10 @@ module Spree
         reorder_params = JSON.parse params[:reorder]
         Classification.reorder params[:grid_id], reorder_params
         render json: true
+      rescue => e
+        message = "Grid saving failed with error #{SecureRandom.uuid}"
+        Reformation::Logger.exception_notify e, message
+        render json: {error: message}, status: :server_error
       end
 
       def create
