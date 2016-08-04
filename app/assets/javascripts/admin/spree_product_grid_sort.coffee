@@ -5,7 +5,8 @@
 (exports ? this).ReorderPage = class ReorderPage
 
   constructor: ->
-    $("#taxon_menu").on "change", @navigate
+    $("#taxon_menu").on "change", @taxon_navigate
+    $('#store_menu').on 'change', @store_navigate if $('#store_menu').length > 0
     if !!$(".classification-block").length
       @initializeGrid()
 
@@ -16,9 +17,13 @@
     @grid = $(".classification-grid ul").sortable(options)
     $("#admin_save_grid_order").on "click", @saveGridOrder
 
-  navigate: (e) =>
+  taxon_navigate: (e) ->
     menu            = $("#taxon_menu")
     window.location = menu.attr("data-url") + "/?taxon_id=" + menu.val()
+
+  store_navigate: (e) ->
+    menu            = $("#store_menu")
+    window.location = menu.attr("data-url") + "/?store_id=" + menu.val()
 
   extractGridOrder: ($w, wgd) =>
     pos = ((wgd.row-1)*6) + wgd.col
