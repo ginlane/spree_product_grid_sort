@@ -9,4 +9,10 @@ module Spree::Admin::GridOrdersHelper
     options = options_from_collection_for_select grids, :id, :pretty_name, grid.try(:id)
     select_tag :grid_id, options, opt
   end
+
+  def retail_store_dropdown_menu(stores, taxon)
+    options = options_from_collection_for_select stores, :id, :pretty_name, taxon.associated_store.try(:id)
+
+    select_tag :store_menu, options, 'data-url' => admin_retail_grid_orders_url, include_blank: true
+  end
 end
