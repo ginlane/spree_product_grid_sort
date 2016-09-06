@@ -10,10 +10,10 @@ module Spree::Admin::GridOrdersHelper
     select_tag :grid_id, options, opt
   end
 
-  def retail_store_dropdown_menu(stores, taxon)
-    options = options_from_collection_for_select stores, :id, :pretty_name, params['store_id']
-    opt_with_default = '<option value="">All</option>'.html_safe + options
+  def retail_store_dropdown_menu(stores, taxon, options={})
+    option_tags = options_from_collection_for_select stores, :id, :pretty_name, params['store_id']
+    opt_with_default = '<option value="">All</option>'.html_safe + option_tags
 
-    select_tag :store_menu, opt_with_default, 'data-url' => admin_retail_grid_orders_url
+    select_tag :store_menu, opt_with_default, options
   end
 end
