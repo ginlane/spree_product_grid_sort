@@ -59,7 +59,7 @@
           class: [(p.try(:new?) ? "new" : ''), |
             (p.try(:total_active) > 0 ? "" : 'oos'), |
             ('waitlist' if stock_status(p) == 'Waitlist'), |
-            ('not-available' if !p.is_available?), |
+            ('not-available' if p.available_on.blank?), |
         ]} |
 
           %h4= raw('&nbsp;')
