@@ -45,7 +45,7 @@
 }
 
 .not-available {
-  background-color: #FAF;
+  background-color: #FAF !important;
 }
 
 .legend-grid{
@@ -65,7 +65,7 @@
     background-color: #0FF;
   }
   tr:hover td.not-available {
-    background-color: #FAF;
+    background-color: #FAF !important;
   }
   td {
     font-size: 10px;
