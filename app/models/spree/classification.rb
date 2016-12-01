@@ -5,7 +5,7 @@ class Spree::Classification < ActiveRecord::Base
 
   belongs_to :taxon_grid
 
-  acts_as_list scope: :taxon_grid_id, add_new_at: :bottom
+  acts_as_list scope: :taxon_grid_id, add_new_at: :top
 
   after_initialize :ensure_link
   before_save :ensure_link
