@@ -1,5 +1,12 @@
+.classification-grid-toolbar {
+  white-space: nowrap;
+}
 
 .classification-grid {
+  position: relative;
+  width: 1080px;
+  left: -60px;
+
   ul {
     list-style: none;
   }
@@ -9,7 +16,7 @@
   // position: absolute;
   float:left;
   width: 16.5%;
-  height: 200px;
+  height: 240px;
   border: 1px solid;
 
   cursor: -webkit-grab;
@@ -23,12 +30,18 @@
     line-height: 1.1;
   }
   .center {
-    width: 100px;
+    width: 176px;
     margin: auto;
   }
   &:active {
     cursor: -webkit-grabbing;
     cursor: -moz-grabbing;
+  }
+  img {
+    max-height: 180px;
+  }
+  .product-title {
+    margin-top: 3px;
   }
 }
 
@@ -50,7 +63,7 @@
 
 .legend-grid{
   margin-right: 1em;
-  max-width: 930px;
+  max-width: 1070px;
   height: 12px;
   tr:hover td {
     background-color: transparent;

@@ -3,36 +3,37 @@
 
 = content_for :page_actions do
 
-  - if @taxons
+  .classification-grid-toolbar
+
+    - if @taxons
+      %li
+        = taxon_dropdown_menu @taxons, @taxon, width:15
+
     %li
-      = taxon_dropdown_menu @taxons, @taxon, width:15
+      = form_tag admin_grid_orders_path, method: :get, id: 'taxon-grid-date-updater' do
+        = hidden_field_tag 'taxon_id', @taxon.id
+        = grids_dropdown_menu @taxon.grids, @grid, {onChange: 'if(this.value)this.form.submit()'}
 
-  %li
-    = form_tag admin_grid_orders_path, method: :get, id: 'taxon-grid-date-updater' do
-      = hidden_field_tag 'taxon_id', @taxon.id
-      = grids_dropdown_menu @taxon.grids, @grid, {onChange: 'if(this.value)this.form.submit()'}
-
-  %li
-    = form_tag admin_grid_orders_path do |f|
-      = hidden_field_tag 'taxon_id', @taxon.id
-      = text_field_tag 'taxon_grid[available_on]', datepicker_field_value(@grid.available_on), class: 'datepicker', size: 10
-      = submit_tag 'Create'
-
-  %li
-    = form_tag admin_grid_order_path(@grid), method: :put do
-      = text_field_tag 'taxon_grid[available_on]', datepicker_field_value(@grid.available_on), class: 'datepicker', id: 'taxon_grid_available_on_for_update', size: 10
-      = submit_tag 'Update'
-
-  - if @grid and !@grid.current?
     %li
-      = button_to 'Delete', admin_grid_order_path(@grid), method: :delete, confirm: "Are you sure?"
-    %li
-      = link_to 'Preview', main_app.taxons_path(@taxon, grid_id: @grid.id || @taxon.grid.id), class: 'button', id: 'preview-button'
+      = form_tag admin_grid_orders_path do |f|
+        = hidden_field_tag 'taxon_id', @taxon.id
+        = text_field_tag 'taxon_grid[available_on]', datepicker_field_value(@grid.available_on), class: 'datepicker', size: 10
+        = submit_tag 'Create'
 
-  - if @taxons
     %li
-      = button_link_to Spree.t(:save_order), reorder_admin_grid_orders_path, { icon: 'icon-plus', id: 'admin_save_grid_order' }
+      = form_tag admin_grid_order_path(@grid), method: :put do
+        = text_field_tag 'taxon_grid[available_on]', datepicker_field_value(@grid.available_on), class: 'datepicker', id: 'taxon_grid_available_on_for_update', size: 10
+        = submit_tag 'Update'
 
+    - if @grid and !@grid.current?
+      %li
+        = button_to 'Delete', admin_grid_order_path(@grid), method: :delete, confirm: "Are you sure?"
+      %li
+        = link_to 'Preview', main_app.taxons_path(@taxon, grid_id: @grid.id || @taxon.grid.id), class: 'button', id: 'preview-button'
+
+    - if @taxons
+      %li
+        = button_link_to Spree.t(:save_order), reorder_admin_grid_orders_path, { icon: 'icon-plus', id: 'admin_save_grid_order' }
 
 
 = render partial: "spree/admin/shared/product_sub_menu"
@@ -64,7 +65,9 @@
 
           %h4= raw('&nbsp;')
           .center
-            = image_tag(p.clp_image_url(:option, '')) unless p.available_assets.blank?
-          %br/
-          %h4
-            = link_to p.name, admin_product_path(p), target: 'blank'
+            = image_tag(p.clp_image_url(:product, '')) unless p.available_assets.blank?
+          %h4.product-title
+            = link_to admin_product_path(p), target: 'blank' do
+              = p.name
+              %br/
+              = p.property('color').try(:downcase)
