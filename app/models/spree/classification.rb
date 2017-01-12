@@ -5,10 +5,13 @@ class Spree::Classification < ActiveRecord::Base
 
   belongs_to :taxon_grid
 
-  acts_as_list scope: :taxon_grid_id, add_new_at: :top
+  acts_as_list scope: :taxon_grid_id, add_new_at: :bottom
 
   after_initialize :ensure_link
   before_save :ensure_link
+
+  after_create :move_to_top, unless: ->(c) {c.dont_move_to_top || c.product.try(:available_on).present?}
+  attr_accessor :dont_move_to_top
 
   def taxon=(t)
     super t
@@ -31,7 +34,6 @@ class Spree::Classification < ActiveRecord::Base
   def ensure_taxon
     self.taxon ||= taxon_grid.taxon
   end
-
 
   def self.reorder(taxon_grid_id, positions)
     ids, positions = positions.transpose
