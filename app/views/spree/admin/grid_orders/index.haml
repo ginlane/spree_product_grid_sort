@@ -1,9 +1,12 @@
-= content_for :page_title do
-  = Spree.t :grids
-
 = content_for :page_actions do
 
+  %h1.page-title.grids-page-title
+    = Spree.t :grids
+
   .classification-grid-toolbar
+
+    %li
+      = render 'store_selector'
 
     - if @taxons
       %li
