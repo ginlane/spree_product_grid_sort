@@ -8,12 +8,12 @@ describe Spree::Taxon do
   it "should scope taxon_grid (singluar) to current available grid" do
     t = FactoryGirl.create :taxon
     t.taxon_grid.should_not eq nil
-  end  
+  end
   it "should return nil if available set to future" do
     t = FactoryGirl.create :taxon
     t.taxon_grid.update available_on: 1.day.from_now
     expect(t.reload.taxon_grid).to eq(nil)
-  end   
+  end
   it "should reflect new products in last (future) taxon if exists" do
     t = FactoryGirl.create :taxon
     t.taxon_grids.create available_on: 1.day.from_now
@@ -21,13 +21,13 @@ describe Spree::Taxon do
     p = FactoryGirl.create :product
     t.taxon_grids.last.products << p
     expect(t.products).to have(0).records
-  end     
+  end
   it "should reflect current grid order in taxon.products" do
     t = FactoryGirl.create :taxon
     p1 = FactoryGirl.create :product
     p2 = FactoryGirl.create :product
-    
-    t.products << p1    
+
+    t.products << p1
     t.products << p2
 
     # matching order
@@ -36,18 +36,18 @@ describe Spree::Taxon do
     # one moar
     p3 = FactoryGirl.create :product
     t.products << p3
-    
+
     # create a new future grid
     tg = t.taxon_grids.create available_on: 1.day.from_now
     # reorder future grid
 
     # tg.classifications.last.move_to_top
-    
+
     # ap tg.reload.classifications
     # reflects order?
-    expect(tg.reload.products.collect(&:id)).to eq [p3,p2,p1].collect(&:id)
+    expect(tg.reload.products.collect(&:id)).to eq [p1,p2,p3].collect(&:id)
     # old/current grid shouldnt change!
-    expect(t.reload.products.collect(&:id)).to eq [p3,p2,p1].collect(&:id)
-  end  
+    expect(t.reload.products.collect(&:id)).to eq [p1,p2,p3].collect(&:id)
+  end
 
 end

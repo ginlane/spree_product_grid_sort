@@ -1,0 +1,7 @@
+.field
+  = label_tag :store_id, Spree.t(:store)
+  = form_tag admin_grid_orders_url, method: :get, autocomplete: "off" do
+    = select_tag :store_id, |
+      options_from_collection_for_select(Spree::Store.where.not(type: Spree::Store::Retail).order(:name), :id, :name, @selected_store.try(:id)), |
+      class: 'store-selector', |
+      onchange: "this.form.submit()" |

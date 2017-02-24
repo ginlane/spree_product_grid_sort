@@ -1,5 +1,16 @@
+.grids-page-title {
+  text-align: left;
+}
+
+.classification-grid-toolbar {
+  white-space: nowrap;
+}
 
 .classification-grid {
+  position: relative;
+  width: 1080px;
+  left: -60px;
+
   ul {
     list-style: none;
   }
@@ -9,7 +20,7 @@
   // position: absolute;
   float:left;
   width: 16.5%;
-  height: 200px;
+  height: 240px;
   border: 1px solid;
 
   cursor: -webkit-grab;
@@ -23,15 +34,83 @@
     line-height: 1.1;
   }
   .center {
-    width: 100px;
+    width: 176px;
     margin: auto;
   }
   &:active {
     cursor: -webkit-grabbing;
     cursor: -moz-grabbing;
   }
+  img {
+    max-height: 180px;
+  }
+  .product-title {
+    margin-top: 3px;
+  }
 }
 
 .new {
   background-color: #FF9300;
+}
+
+.oos {
+  background-color: #B00;
+}
+
+.waitlist {
+  background-color: #0FF;
+}
+
+.not-available {
+  background-color: #FAF !important;
+}
+
+.legend-grid{
+  margin-right: 1em;
+  max-width: 1070px;
+  height: 12px;
+  tr:hover td {
+    background-color: transparent;
+  }
+  tr:hover td.new {
+    background-color: #FF9300;
+  }
+  tr:hover td.oos {
+    background-color: #B00;
+  }
+  tr:hover td.waitlist {
+    background-color: #0FF;
+  }
+  tr:hover td.not-available {
+    background-color: #FAF !important;
+  }
+  td {
+    font-size: 10px;
+    margin: 0;
+    padding: 0;
+  }
+}
+.legend-chip {
+  width: 4%;
+}
+
+.page-actions.toolbar ul.inline-menu {
+
+  #preview-button {
+    padding: 0px 8px;
+    margin: 0px 0px;
+    height: 35px;
+    top: 2px;
+    position: relative;
+  }
+  #taxon_menu {
+    width: 170px;
+  }
+
+  li:not(:first-child):before {
+    content: "|";
+    color:#fff;
+    font-size: x-large;
+    font-weight:bolder;
+  }
 }

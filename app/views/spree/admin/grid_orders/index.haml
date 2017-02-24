@@ -1,34 +1,43 @@
-= content_for :page_title do
-  = Spree.t :grids
-
 = content_for :page_actions do
 
-  %li
-    = form_tag admin_grid_orders_path do |f|
-      = hidden_field_tag 'taxon_id', @taxon.id
-      = hidden_field_tag 'taxon_grid[available_on]', 1.month.ago, id:'tax_grid_avail'
-      = submit_tag 'Create'
+  %h1.page-title.grids-page-title
+    = Spree.t :grids
 
-  - if @grid and !@grid.current?
-    %li
-      = link_to 'Preview', main_app.taxons_path(@taxon, grid_id: @grid.id || @taxon.grid.id), class: 'button'
+  .classification-grid-toolbar
 
     %li
-      = button_to 'Delete', admin_grid_order_path(@grid), method: :delete
+      = render 'store_selector'
 
-  %li
-    = form_tag admin_grid_orders_path, method: :get do
-      = hidden_field_tag 'taxon_id', @taxon.id
-      = grids_dropdown_menu @taxon.grids, @grid, {onChange: 'if(this.value)this.form.submit()'}
-  %li
-    = form_tag admin_grid_order_path(@grid), method: :put do
-      = text_field_tag 'taxon_grid[available_on]', datepicker_field_value(@grid.available_on), class: 'datepicker', onChange: 'this.form.submit()', size: 10
+    - if @taxons
+      %li
+        = taxon_dropdown_menu @taxons, @taxon, width:15
 
-  - if @taxons
     %li
-      = taxon_dropdown_menu @taxons, @taxon, width:15
+      = form_tag admin_grid_orders_path, method: :get, id: 'taxon-grid-date-updater' do
+        = hidden_field_tag 'taxon_id', @taxon.id
+        = grids_dropdown_menu @taxon.grids, @grid, {onChange: 'if(this.value)this.form.submit()'}
+
     %li
-      = button_link_to Spree.t(:save_order), reorder_admin_grid_orders_path, { icon: 'icon-plus', id: 'admin_save_grid_order' }
+      = form_tag admin_grid_orders_path do |f|
+        = hidden_field_tag 'taxon_id', @taxon.id
+        = text_field_tag 'taxon_grid[available_on]', datepicker_field_value(@grid.available_on), class: 'datepicker', size: 10
+        = submit_tag 'Create'
+
+    %li
+      = form_tag admin_grid_order_path(@grid), method: :put do
+        = text_field_tag 'taxon_grid[available_on]', datepicker_field_value(@grid.available_on), class: 'datepicker', id: 'taxon_grid_available_on_for_update', size: 10
+        = submit_tag 'Update'
+
+    - if @grid and !@grid.current?
+      %li
+        = button_to 'Delete', admin_grid_order_path(@grid), method: :delete, confirm: "Are you sure?"
+      %li
+        = link_to 'Preview', main_app.taxons_path(@taxon, grid_id: @grid.id || @taxon.grid.id), class: 'button', id: 'preview-button'
+
+    - if @taxons
+      %li
+        = button_link_to Spree.t(:save_order), reorder_admin_grid_orders_path, { icon: 'icon-plus', id: 'admin_save_grid_order' }
+
 
 = render partial: "spree/admin/shared/product_sub_menu"
 
@@ -36,13 +45,32 @@
   - num_cols    = params[:num_cols] ||  6 # TODO: CONFIGME
   - num_cols    = num_cols.to_i
   .classification-grid
+    %table{class: 'legend-grid'}
+      %tr
+        %td{class: 'new legend-chip'}
+        %td New
+        %td{class: 'waitlist legend-chip'}
+        %td Waitlist
+        %td{class: 'oos legend-chip'}
+        %td Out of Stock
+        %td{class: 'not-available legend-chip'}
+        %td No Available On Date
     %ul
       - @products.each_with_index do |p, i|
-        %li.classification-block{ id: "id_" + p.id.to_s, data: { id: p.id, col: i.modulo(num_cols)+1 , row:(i/num_cols).to_i+1 , sizex: 1, sizey: 1 }, class: p.try(:new?) ? "new" : '' }
+        %li.classification-block{ |
+          id: "id_" + p.id.to_s, |
+          data: { id: p.id, col: i.modulo(num_cols)+1 , row:(i/num_cols).to_i+1 , sizex: 1, sizey: 1 }, |
+          class: [(p.try(:new?) ? "new" : ''), |
+            (p.total_inventory_for_store(@selected_store) > 0 ? "" : 'oos'), |
+            ('waitlist' if stock_status(p) == 'Waitlist'), |
+            ('not-available' if p.available_on_store(@selected_store).blank?), |
+        ]} |
 
           %h4= raw('&nbsp;')
           .center
-            = ass_tag(p.assets.first, {size: '100x200'},{tags:"clp"}) unless p.assets.blank?
-          %br/
-          %h4
-            = link_to p.name, admin_product_path(p), target: 'blank'
+            = image_tag(p.clp_image_url(:product, '')) unless p.available_assets.blank?
+          %h4.product-title
+            = link_to admin_product_path(p), target: 'blank' do
+              = p.name
+              %br/
+              = p.property('color').try(:downcase)
