@@ -61,7 +61,7 @@
           id: "id_" + p.id.to_s, |
           data: { id: p.id, col: i.modulo(num_cols)+1 , row:(i/num_cols).to_i+1 , sizex: 1, sizey: 1 }, |
           class: [(p.try(:new?) ? "new" : ''), |
-            (p.try(:total_active) > 0 ? "" : 'oos'), |
+            (p.total_inventory_for_store(@selected_store) > 0 ? "" : 'oos'), |
             ('waitlist' if stock_status(p) == 'Waitlist'), |
             ('not-available' if p.available_on_store(@selected_store).blank?), |
         ]} |
